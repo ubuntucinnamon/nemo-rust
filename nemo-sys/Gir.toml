@@ -1,0 +1,141 @@
+[options]
+library = "Nemo"
+version = "3.0"
+target_path = "."
+min_cfg_version = "3.0"
+work_mode = "sys"
+generate_builder = true
+girs_directories = ["../../gir-files/"]
+
+external_libraries = [
+	"Atk",
+	"Gio",
+	"GLib",
+	"GObject",
+	"Gtk",
+	"Pango",
+]
+
+[[object]]
+name = "Atk.ImplementorIface"
+status = "generate"
+
+[[object]]
+name = "Gio.File"
+status = "generate"
+
+[[object]]
+name = "Gio.FileType"
+status = "generate"
+
+[[object]]
+name = "Gio.Mount"
+status = "generate"
+
+[[object]]
+name = "Gio.Resource"
+status = "generate"
+
+[[object]]
+name = "GObject.Closure"
+status = "generate"
+
+[[object]]
+name = "GObject.InitiallyUnowned"
+status = "generate"
+
+[[object]]
+name = "GObject.TypeModule"
+status = "generate"
+
+[[object]]
+name = "Gtk.Actionable"
+status = "generate"
+
+[[object]]
+name = "Gtk.Activatable"
+status = "generate"
+
+[[object]]
+name = "Gtk.Bin"
+status = "generate"
+
+[[object]]
+name = "Gtk.Buildable"
+status = "generate"
+
+[[object]]
+name = "Gtk.Button"
+status = "generate"
+
+[[object]]
+name = "Gtk.Container"
+status = "generate"
+
+[[object]]
+name = "Gtk.Widget"
+status = "generate"
+
+[[object]]
+name = "Nemo.Column"
+status = "generate"
+
+[[object]]
+name = "Nemo.ColumnProvider"
+status = "generate"
+
+[[object]]
+name = "Nemo.DesktopPreferences"
+status = "generate"
+
+[[object]]
+name = "Nemo.FileInfo"
+status = "generate"
+
+[[object]]
+name = "Nemo.InfoProvider"
+status = "generate"
+
+[[object]]
+name = "Nemo.InfoProviderUpdateComplete"
+status = "generate"
+
+[[object]]
+name = "Nemo.LocationWidgetProvider"
+status = "generate"
+
+[[object]]
+name = "Nemo.Menu"
+status = "generate"
+
+[[object]]
+name = "Nemo.MenuItem"
+status = "generate"
+
+[[object]]
+name = "Nemo.MenuProvider"
+status = "generate"
+
+[[object]]
+name = "Nemo.NameAndDescProvider"
+status = "generate"
+
+[[object]]
+name = "Nemo.OperationResult"
+status = "generate"
+
+[[object]]
+name = "Nemo.PropertyPage"
+status = "generate"
+
+[[object]]
+name = "Nemo.PropertyPageProvider"
+status = "generate"
+
+[[object]]
+name = "Nemo.SimpleButton"
+status = "generate"
+
+[[object]]
+name = "Pango.EllipsizeMode"
+status = "generate"

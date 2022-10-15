@@ -1,0 +1,44 @@
+[package]
+name = "nemo"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+libc = "0.2"
+bitflags = "1.0"
+
+[dependencies.ffi]
+package = "nemo-sys"
+path = "./nemo-sys"
+
+[dependencies.atk]
+git = "https://github.com/gtk-rs/gtk3-rs"
+
+[dependencies.atk-sys]
+git = "https://github.com/gtk-rs/gtk3-rs"
+
+[dependencies.glib]
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.glib-sys]
+git = "https://github.com/gtk-rs/sys" # all gtk-rs sys crates are in the sys repository
+
+[dependencies.pango]
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.pango-sys]
+git = "https://github.com/gtk-rs/sys"
+
+[dependencies.gio]
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.gio-sys]
+git = "https://github.com/gtk-rs/sys"
+
+[dependencies.gtk]
+git = "https://github.com/gtk-rs/gtk3-rs"
+
+[dependencies.gtk-sys]
+git = "https://github.com/gtk-rs/gtk3-rs"

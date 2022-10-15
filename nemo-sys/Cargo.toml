@@ -1,0 +1,50 @@
+[package]
+name = "nemo-sys"
+version = "0.0.1"
+edition = "2021"
+build = "build.rs"
+[package.metadata.system-deps.libnemo_extension]
+name = "libnemo-extension"
+version = "3"
+[package.metadata.docs.rs]
+features = ["dox"]
+
+[lib]
+name = "nemo_sys"
+
+[dependencies]
+libc = "0.2"
+
+[dependencies.atk]
+package = "atk-sys"
+git = "https://github.com/gtk-rs/gtk3-rs"
+
+[dependencies.gio]
+package = "gio-sys"
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.glib]
+package = "glib-sys"
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.gobject]
+package = "gobject-sys"
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.gtk]
+package = "gtk-sys"
+git = "https://github.com/gtk-rs/gtk3-rs"
+
+[dependencies.pango]
+package = "pango-sys"
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[build-dependencies]
+system-deps = "6"
+
+[dev-dependencies]
+shell-words = "1.0.0"
+tempfile = "3"
+
+[features]
+dox = []

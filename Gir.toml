@@ -1,0 +1,49 @@
+[options]
+girs_directories = ["../gir-files"]
+library = "Nemo"
+version = "3.0"
+min_cfg_version = "3.0"
+target_path = "."
+work_mode = "normal"
+generate_safety_asserts = true
+deprecate_by_min_version = true
+single_version_file = true
+generate_builder = true
+
+generate = [
+	"Nemo.Column",
+	"Nemo.ColumnProvider",
+	"Nemo.ColumnBuilder",
+	"Nemo.FileInfo",
+	"Nemo.InfoProvider",
+	"Nemo.InfoProviderUpdateComplete",
+	"Nemo.LocationWidgetProvider",
+	"Nemo.Menu",
+	"Nemo.MenuItem",
+	"Nemo.MenuItemBuilder",
+	"Nemo.MenuProvider",
+	"Nemo.NameAndDescProvider",
+	"Nemo.OperationResult",
+	"Nemo.PropertyPage",
+	"Nemo.PropertyPageBuilder",
+	"Nemo.PropertyPageProvider",
+]
+
+manual = [
+	"Atk.ImplementorIface",
+	"Gio.File",
+	"Gio.FileType",
+	"Gio.Mount",
+	"Gio.Resource",
+	"GObject.Closure",
+	"GObject.InitiallyUnowned",
+	"GObject.TypeModule",
+	"Gtk.Actionable",
+	"Gtk.Activatable",
+	"Gtk.Bin",
+	"Gtk.Button",
+	"Gtk.Buildable",
+	"Gtk.Container",
+	"Gtk.Widget",
+	"Pango.EllipsizeMode",
+]
