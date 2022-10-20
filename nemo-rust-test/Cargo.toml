@@ -10,7 +10,11 @@ crate-type = ["cdylib"]
 
 [dependencies.nemo]
 package = "nemo"
-path = "../../nemo"
+path = "../"
+
+[dependencies.nemo-sys]
+package = "nemo-sys"
+path = "../nemo-sys"
 
 [dependencies.glib]
 git = "https://github.com/gtk-rs/gtk-rs-core"
