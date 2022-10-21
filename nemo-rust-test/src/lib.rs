@@ -24,7 +24,7 @@ use std::mem;
 use std::ptr;
 
 #[no_mangle]
-unsafe extern "C" fn get_name_and_desc_list(provider: *mut NemoNameAndDescProvider) -> *mut glib::ffi::GList {
+unsafe extern "C" fn get_name_and_desc_list(_provider: *mut NemoNameAndDescProvider) -> *mut glib::ffi::GList {
     let ret = ptr::null_mut();
     let s = "NemoRustTest".as_ptr() as gpointer;
     let ret = g_list_append(ret, s);
@@ -32,7 +32,7 @@ unsafe extern "C" fn get_name_and_desc_list(provider: *mut NemoNameAndDescProvid
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn nemo_nd_provider_iface_init(iface: *mut c_void, _: *mut c_void) {
+pub unsafe extern "C" fn nemo_nd_provider_iface_init(_iface: *mut c_void, _: *mut c_void) {
     g_debug!("", "Made it to nemo_nd_provider_iface_init");
     let mut i: NemoNameAndDescProviderIface = mem::uninitialized();
     i.get_name_and_desc = Some(get_name_and_desc_list);
@@ -78,9 +78,9 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
     let rt_type: GType = 1;
 
     let name = CString::new(&"NemoRustTest" as &str).unwrap();
-    let mut rt_type = g_type_module_register_type(module, rt_type, name.as_ptr(), &info, 10);
+    let rt_type = g_type_module_register_type(module, rt_type, name.as_ptr(), &info, 10);
     g_debug!("", "registred type");
-    let nd = g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
+    let _nd = g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
     g_debug!("", "added interface");
 }
 }
