@@ -1,9 +1,10 @@
 pub use nemo::*;
 
-pub use glib::{g_debug};
+pub use glib::{g_debug, g_warning};
 pub use glib::gobject_ffi::GTypeModule;
 pub use glib::gobject_ffi::g_type_module_register_type;
 pub use glib::gobject_ffi::GTypeInfo;
+pub use glib::gobject_ffi::GTypeInterface;
 use glib::gobject_ffi::GTypeValueTable;
 use glib::gobject_ffi::GInterfaceInfo;
 use glib::gobject_ffi::g_type_module_add_interface;
@@ -19,32 +20,57 @@ use std::ffi::CString;
 use std::ffi::c_void;
 use std::ffi::c_int;
 use glib_sys::GType;
+use gobject_sys::GObject;
+use gobject_sys::GObjectClass;
+use gobject_sys::G_TYPE_OBJECT;
+use gobject_sys::g_type_class_peek_parent;
 
+use gobject_sys::g_type_from_name;
+use gobject_sys::g_type_parent;
 use std::mem;
 use std::ptr;
 
 #[no_mangle]
-unsafe extern "C" fn get_name_and_desc_list(provider: *mut NemoNameAndDescProvider) -> *mut glib::ffi::GList {
+pub unsafe extern "C" fn get_name_and_desc_list(provider: *mut NemoNameAndDescProvider) -> *mut glib::ffi::GList {
     let ret = ptr::null_mut();
-    let s = "NemoRustTest".as_ptr() as gpointer;
+    let mut s = "Nemo Rust Test:::Hello from Rust!".as_ptr() as gpointer;
     let ret = g_list_append(ret, s);
-    ret
+    return ret;
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn nemo_nd_provider_iface_init(iface: *mut c_void, _: *mut c_void) {
-    g_debug!("", "Made it to nemo_nd_provider_iface_init");
-    let mut i: NemoNameAndDescProviderIface = mem::uninitialized();
-    i.get_name_and_desc = Some(get_name_and_desc_list);
+    g_warning!("", "Made it to nemo_nd_provider_iface_init");
+    let mut gtypeiface = GTypeInterface {
+        g_type: 0 as GType,
+        g_instance_type: 0 as GType
+    };
+    let mut iface = NemoNameAndDescProviderIface {
+        g_iface: gtypeiface,
+        get_name_and_desc: Some(get_name_and_desc_list)
+    };
     g_debug!("Define I value", "");
 }
+
+
+
+#[no_mangle]
+#[link(name = "nemo_extension")]
+pub fn nemo_module_list_types(types: GType, num_types: *mut c_int) {
+    unsafe {
+        let name = CString::new(&"NemoRustTest" as &str).unwrap();
+        let mut type_list: [GType;1] = [types];
+        let types = type_list[0];
+        let num_types = 1; // note: unsafe bc this can be a NPD
+    }
+}
+
 
 #[no_mangle]
 #[link(name = "nemo_extension")]
 pub fn nemo_module_initialize(module: *mut GTypeModule) {
     unsafe {
     g_debug!("Hello from Rust!", "");
-
     let fake_valtable = GTypeValueTable {
         value_init: None,
         value_free: None,
@@ -57,13 +83,13 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
     };
 
     let info = GTypeInfo {
-        class_size: 3000,
+        class_size: 3000 as u16,
         base_init: None,
         base_finalize: None,
         class_init: None,
         class_finalize: None,
         class_data: ptr::null(),
-        instance_size: 0,
+        instance_size: 3000 as u16,
         n_preallocs: 0,
         instance_init: None,
         value_table: &fake_valtable,
@@ -72,16 +98,16 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
     let nd_provider_iface_info = GInterfaceInfo {
         interface_init: Some(nemo_nd_provider_iface_init),
         interface_finalize: None,
-        interface_data: ptr::null_mut(),
+        interface_data: nemo_nd_provider_iface_init as gpointer,
     };
 
-    let rt_type: GType = 1;
 
     let name = CString::new(&"NemoRustTest" as &str).unwrap();
-    let mut rt_type = g_type_module_register_type(module, rt_type, name.as_ptr(), &info, 10);
+    let mut rt_type = g_type_module_register_type(module, G_TYPE_OBJECT, name.as_ptr(), &info, 0);
     g_debug!("", "registred type");
-    let nd = g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
+    g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
     g_debug!("", "added interface");
+    nemo_module_list_types(rt_type, 0 as *mut i32);
 }
 }
 
@@ -89,16 +115,4 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
 #[link(name = "nemo_extension")]
 pub fn nemo_module_shutdown(_: c_void) {
     g_debug!("", "Goodbye from Rust");
-}
-
-
-#[no_mangle]
-#[link(name = "nemo_extension")]
-pub fn nemo_module_list_types(types: *mut *const GType, num_types: *mut c_int) {
-    unsafe {
-    let mut type_list: [GType; 1] = [1 as GType];
-    type_list[0] = 0 as GType;
-    *types = &type_list[0];
-    *num_types = 1; // note: unsafe bc this can be a NPD
-    }
 }
