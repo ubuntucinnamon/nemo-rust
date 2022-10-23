@@ -52,16 +52,14 @@ pub unsafe extern "C" fn nemo_nd_provider_iface_init(iface: *mut c_void, _: *mut
     g_debug!("Define I value", "");
 }
 
-
-
 #[no_mangle]
 #[link(name = "nemo_extension")]
-pub fn nemo_module_list_types(types: GType, num_types: *mut c_int) {
+pub fn nemo_module_list_types(types: *mut GType, mut num_types: c_int) {
     unsafe {
-        let name = CString::new(&"NemoRustTest" as &str).unwrap();
-        let mut type_list: [GType;1] = [types];
-        let types = type_list[0];
-        let num_types = 1; // note: unsafe bc this can be a NPD
+        let type_list: [GType;1] = [*types];
+        *types = *type_list.as_ptr();
+        let x = &mut num_types;
+        *x = 1 as c_int;
     }
 }
 
@@ -107,7 +105,7 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
     g_debug!("", "registred type");
     g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
     g_debug!("", "added interface");
-    nemo_module_list_types(rt_type, 0 as *mut i32);
+    nemo_module_list_types(rt_type as *mut usize, 1 as c_int);
 }
 }
 
