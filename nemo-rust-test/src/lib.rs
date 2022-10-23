@@ -106,6 +106,9 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
     g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
     g_debug!("", "added interface");
     nemo_module_list_types(rt_type as *mut usize, 1 as c_int);
+
+    g_debug!("", "Let\'s make a column!");
+    Column::new("NemoRust::Hello", "Attribute", "Label", "Desc");
 }
 }
 
