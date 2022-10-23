@@ -31,11 +31,7 @@ use std::mem;
 use std::ptr;
 
 #[no_mangle]
-<<<<<<< HEAD
-pub unsafe extern "C" fn get_name_and_desc_list(provider: *mut NemoNameAndDescProvider) -> *mut glib::ffi::GList {
-=======
 unsafe extern "C" fn get_name_and_desc_list(_provider: *mut NemoNameAndDescProvider) -> *mut glib::ffi::GList {
->>>>>>> 7b0106dc47c2daefe04a8280e23428dd11e822ba
     let ret = ptr::null_mut();
     let mut s = "Nemo Rust Test:::Hello from Rust!".as_ptr() as gpointer;
     let ret = g_list_append(ret, s);
@@ -43,7 +39,6 @@ unsafe extern "C" fn get_name_and_desc_list(_provider: *mut NemoNameAndDescProvi
 }
 
 #[no_mangle]
-<<<<<<< HEAD
 pub unsafe extern "C" fn nemo_nd_provider_iface_init(iface: *mut c_void, _: *mut c_void) {
     g_warning!("", "Made it to nemo_nd_provider_iface_init");
     let mut gtypeiface = GTypeInterface {
@@ -54,12 +49,6 @@ pub unsafe extern "C" fn nemo_nd_provider_iface_init(iface: *mut c_void, _: *mut
         g_iface: gtypeiface,
         get_name_and_desc: Some(get_name_and_desc_list)
     };
-=======
-pub unsafe extern "C" fn nemo_nd_provider_iface_init(_iface: *mut c_void, _: *mut c_void) {
-    g_debug!("", "Made it to nemo_nd_provider_iface_init");
-    let mut i: NemoNameAndDescProviderIface = mem::uninitialized();
-    i.get_name_and_desc = Some(get_name_and_desc_list);
->>>>>>> 7b0106dc47c2daefe04a8280e23428dd11e822ba
     g_debug!("Define I value", "");
 }
 
@@ -114,15 +103,9 @@ pub fn nemo_module_initialize(module: *mut GTypeModule) {
 
 
     let name = CString::new(&"NemoRustTest" as &str).unwrap();
-<<<<<<< HEAD
     let mut rt_type = g_type_module_register_type(module, G_TYPE_OBJECT, name.as_ptr(), &info, 0);
     g_debug!("", "registred type");
     g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
-=======
-    let rt_type = g_type_module_register_type(module, rt_type, name.as_ptr(), &info, 10);
-    g_debug!("", "registred type");
-    let _nd = g_type_module_add_interface(module, rt_type, nemo_name_and_desc_provider_get_type(), &nd_provider_iface_info);
->>>>>>> 7b0106dc47c2daefe04a8280e23428dd11e822ba
     g_debug!("", "added interface");
     nemo_module_list_types(rt_type, 0 as *mut i32);
 }
